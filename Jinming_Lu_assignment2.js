@@ -18,26 +18,22 @@ function DeepClone(source){
     }
     return targetObj;
 };
-/*
-function First_Function(Object) {  //generating a new array which doubles the quantity and price in each object
-    let NewObject = DeepClone(Object);
-    console.log(NewObject);
-    for(let i = 0; i < NewObject.length; i++){
-        NewObject[i].price = NewObject[i].price*2;
-        NewObject[i].quantity = NewObject[i].quantity*2;
-    }
-    return NewObject;
-}; 
-*/
 
 function First_Function(Object) {  //generating a new array which doubles the quantity and price in each object
     let NewObject = DeepClone(Object);
     NewObject.forEach((ele)=>{
-        ele.quantity = 2*ele.quantity;
+        ele.quantity = 2*ele.quantity; //xi wang yong map
         ele.price = 2*ele.price;
     });
     return NewObject;
 }; 
+
+console.log(itemsObject.map(({quantity, price})=>{
+    quantity = quantity*2;
+    price = price*2;
+    return {quantity,price};
+}));
+console.log(itemsObject);
 
 let array1 = First_Function(itemsObject);
 console.log(array1);

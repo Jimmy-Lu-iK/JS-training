@@ -1,3 +1,7 @@
+<meta http-equiv="Access-Control-Allow-Origin" content="*"></meta>
+
+
+
 const todoApi = {
     todos: [
       { content: 'write some code', isCompleted: false },

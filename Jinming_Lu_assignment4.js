@@ -69,7 +69,7 @@ const todoApi = {
   //console.log(menu.innerHTML);
   //console.log(todoApi.todos);
   //todoApi.getAllTodos().then(data) => console.log(data);
-  const url = 'http://github.com/wikiwikitang/todoApp/blob/main/Desktop/todoApp/todoApp.js';
+  const url = 'http://github.com/Jimmy-Lu-iK/JS-training/blob/main/todoApi.js';
   const url2 = 'http://api.github.com/user/wikiwi';
   const generateTodoLsit = async() => {
       const response = await fetch(url);

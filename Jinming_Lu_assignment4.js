@@ -133,7 +133,7 @@ const todoApi = {
       text.style="text-decoration:line-through";
     };
     text.value = index;
-    text.addEventListener("click", ()=>{
+    text.addEventListener("dblclick", ()=>{
       todoApi.modTodo(parseInt(text.value)).then((value)=>{
         alert("mod "+name.content+" "+value.modTodo);
         PrintList();

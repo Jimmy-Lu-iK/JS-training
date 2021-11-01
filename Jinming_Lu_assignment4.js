@@ -1,3 +1,5 @@
+//"use strict";
+
 const todoApi = {
     todos: [
       { content: 'write some code', isCompleted: false },
@@ -25,6 +27,7 @@ const todoApi = {
     },
     modTodo: async function (index) {
       return new Promise((resolve, reject) => {
+
         setTimeout(() => {
           if (
             !Number.isInteger(index) ||
@@ -33,7 +36,6 @@ const todoApi = {
           ) {
             reject({ error: 'index is not valid !' });
           }
-  
           this.todos[index].isCompleted = !this.todos[index].isCompleted;
           resolve({ modTodo: 'succeed' });
         }, 500);
@@ -45,14 +47,14 @@ const todoApi = {
           if (
             !Number.isInteger(index) ||
             index < 0 ||
-            index >= this.todo.length
+            index >= this.todos.length
           ) {
             reject({ error: 'index is not valid !' });
           }
   
-          if (!todo || todo.content) {
-            reject({ error: 'content is empty !' });
-          }
+          // if (!todo || todo.content) {
+          //   reject({ error: 'content is empty !' });
+          // }
           this.todos = [
             ...this.todos.slice(0, index),
             ...this.todos.slice(index + 1),
@@ -67,23 +69,103 @@ const todoApi = {
   //let todoList = todoApi.todos;
   //menu.appendChild(todoList);
   //console.log(menu.innerHTML);
-  //console.log(todoApi.todos);
+  
   //todoApi.getAllTodos().then(data) => console.log(data);
-  const url = 'http://github.com/Jimmy-Lu-iK/JS-training/blob/main/todoApi.js';
-  const url2 = 'http://api.github.com/user/wikiwi';
-  const generateTodoLsit = async() => {
-      const response = await fetch(url);
-      const data = await response.json(); 
-      const unorderList = document.createElement('ul');
-      const nodeList = Object.keys(data).map((key)=>{
-          const li = document.createElement('li');
-          li.textContent = '${key}:${data[key]}';
-          return li;
+  // const url = 'http://github.com/Jimmy-Lu-iK/JS-training/blob/main/todoApi.js';
+  // const url2 = 'http://api.github.com/user/wikiwi';
+  // const generateTodoLsit = async() => {
+  //     const response = await fetch(url);
+  //     const data = await response.json(); 
+  //     const unorderList = document.createElement('ul');
+  //     const nodeList = Object.keys(data).map((key)=>{
+  //         const li = document.createElement('li');
+  //         li.textContent = '${key}:${data[key]}';
+  //         return li;
+  //     });
+  //     unorderList.append(...nodeList);
+  //     return unorderList;
+  // };
+
+  // generateTodoLsit().then((unorderList)=>{
+  //     document.querySelector('#content').append(unorderList);
+  // });
+
+  
+
+  // function AddtodoItem (text) {
+  //   alert("Add " + text + " TodoList");
+  //   unorderList.appendChild(createListItem(text));
+  // };
+  // document.getElementById('addTodoBtn').addEventListener("click", AddtodoItem(InputText.value));
+
+  // console.log(todoApi.todos);
+  // let unorderList = document.createElement('ul');
+  // document.getElementById('content').appendChild(unorderList);
+
+  // function createListItem (name) {
+  //   let li = document.createElement('li');
+  //   li.textContent = name;
+  //   return li;
+  // };
+  
+
+  let InputText = document.getElementById('inputTodoField');
+
+  document.getElementById('addTodoBtn').addEventListener("click", ()=>{
+    let object = {content:InputText.value, isCompleted:false}; 
+    todoApi.addTodo(object).then((message)=>{
+      alert("Add " + object.content + " to TodoList " + message.addTodo);
+    });
+    PrintList();
+  });
+
+  let unorderList = document.createElement('ul');
+  document.getElementById('content').appendChild(unorderList);
+
+
+  function createListItem (name,index) {
+    let li = document.createElement('li');
+    let line = document.createElement('p');
+    let text = document.createElement('span');
+    let button = document.createElement('button');
+    text.textContent = name.content;
+    if(name.isCompleted){
+      text.style="text-decoration:line-through";
+    };
+    text.value = index;
+    text.addEventListener("click", ()=>{
+      todoApi.modTodo(parseInt(text.value)).then((value)=>{
+        alert("mod "+name.content+" "+value.modTodo);
+        PrintList();
       });
-      unorderList.append(...nodeList);
-      return unorderList;
+    });
+    button.textContent = 'DEL';
+    button.value = index;
+    button.addEventListener("click", ()=>{
+      todoApi.delTodo(parseInt(button.value)).then((value)=>{
+        alert("delete "+name.content+" "+value.delTodo);
+        PrintList();
+      });
+    });
+    line.appendChild(text);
+    line.appendChild(button);
+    li.appendChild(line);
+    return li;
+  };
+  
+
+  function clear() {
+    unorderList.innerHTML = "";
   };
 
-  generateTodoLsit().then((unorderList)=>{
-      document.querySelector('#content').append(unorderList);
-  });
+  function PrintList() {
+    clear();
+    todoApi.getAllTodos().then((value) => {
+      value.todos.forEach((element,index) => {
+        console.log("element: "+element+", index: "+index);
+        unorderList.appendChild(createListItem(element,index));
+      });
+    });
+  };
+  PrintList();
+

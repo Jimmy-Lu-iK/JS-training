@@ -17,6 +17,7 @@ const todoApi = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           if (!todo || !todo.content) {
+            console.log();
             reject({ error: 'content is empty !' });
           }
           this.todos.push(todo);

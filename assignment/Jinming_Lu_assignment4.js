@@ -115,7 +115,7 @@ const todoApi = {
   document.getElementById('addTodoBtn').addEventListener("click", ()=>{  //click button to add todo item
     let object = {content:InputText.value, isCompleted:false}; 
     todoApi.addTodo(object).then((message)=>{
-      alert("Add " + object.content + " to TodoList " + message.addTodo);
+      alert('Add "' + object.content + '" to TodoList ' + message.addTodo);
     });
     PrintList();
   });
@@ -124,7 +124,7 @@ const todoApi = {
     if(event.keyCode===13){
       let object = {content:InputText.value, isCompleted:false}; 
       todoApi.addTodo(object).then((message)=>{
-        alert("Add " + object.content + " to TodoList " + message.addTodo);
+        alert('Add "' + object.content + '" to TodoList ' + message.addTodo);
       });
       PrintList();
     };
@@ -146,7 +146,7 @@ const todoApi = {
     text.value = index;
     text.addEventListener("dblclick", ()=>{         //double click to mod the todo item
       todoApi.modTodo(parseInt(text.value)).then((value)=>{
-        alert("mod "+name.content+" "+value.modTodo);
+        alert('mod "'+name.content+'" '+value.modTodo);
         PrintList();s
       });
     });
@@ -154,7 +154,7 @@ const todoApi = {
     button.value = index;
     button.addEventListener("click", ()=>{             //click delete button to delete the todo item
       todoApi.delTodo(parseInt(button.value)).then((value)=>{
-        alert("delete "+name.content+" "+value.delTodo);
+        alert('delete "'+name.content+'" '+value.delTodo);
         PrintList();
       });
     });
@@ -173,7 +173,6 @@ const todoApi = {
     clear();
     todoApi.getAllTodos().then((value) => {
       value.todos.forEach((element,index) => {
-        console.log("element: "+element+", index: "+index);
         unorderList.appendChild(createListItem(element,index));
       });
     });

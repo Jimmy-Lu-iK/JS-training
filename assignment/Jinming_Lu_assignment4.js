@@ -112,7 +112,7 @@ const todoApi = {
 
   let InputText = document.getElementById('inputTodoField');
 
-  document.getElementById('addTodoBtn').addEventListener("click", ()=>{
+  document.getElementById('addTodoBtn').addEventListener("click", ()=>{  //click button to add todo item
     let object = {content:InputText.value, isCompleted:false}; 
     todoApi.addTodo(object).then((message)=>{
       alert("Add " + object.content + " to TodoList " + message.addTodo);
@@ -120,11 +120,21 @@ const todoApi = {
     PrintList();
   });
 
+  InputText.addEventListener("keyup", (event)=>{   //enter to add todo item
+    if(event.keyCode===13){
+      let object = {content:InputText.value, isCompleted:false}; 
+      todoApi.addTodo(object).then((message)=>{
+        alert("Add " + object.content + " to TodoList " + message.addTodo);
+      });
+      PrintList();
+    };
+  });
+
   let unorderList = document.createElement('ul');
   document.getElementById('content').appendChild(unorderList);
 
 
-  function createListItem (name,index) {
+  function createListItem (name,index) {      //create unorder list elements
     let li = document.createElement('li');
     let line = document.createElement('p');
     let text = document.createElement('span');
@@ -134,15 +144,15 @@ const todoApi = {
       text.style="text-decoration:line-through";
     };
     text.value = index;
-    text.addEventListener("dblclick", ()=>{
+    text.addEventListener("dblclick", ()=>{         //double click to mod the todo item
       todoApi.modTodo(parseInt(text.value)).then((value)=>{
         alert("mod "+name.content+" "+value.modTodo);
-        PrintList();
+        PrintList();s
       });
     });
     button.textContent = 'DEL';
     button.value = index;
-    button.addEventListener("click", ()=>{
+    button.addEventListener("click", ()=>{             //click delete button to delete the todo item
       todoApi.delTodo(parseInt(button.value)).then((value)=>{
         alert("delete "+name.content+" "+value.delTodo);
         PrintList();
@@ -155,11 +165,11 @@ const todoApi = {
   };
   
 
-  function clear() {
+  function clear() {                     //clear the old version of todo list
     unorderList.innerHTML = "";
   };
 
-  function PrintList() {
+  function PrintList() {                    //print todo list to html
     clear();
     todoApi.getAllTodos().then((value) => {
       value.todos.forEach((element,index) => {
